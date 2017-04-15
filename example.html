@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="xback.js"></script>
+  <title>xback_example</title>
+</head>
+<body>
+  <button id="push">push</button>
+  <button id="back">back</button>
+  <button id="xback">xback</button>
+  <button id="listen">listen</button>
+  <button id="uninit">uninit</button>
+  <script>
+    var i = 0;
+    var xBack = XBack.init(window, function(event){
+      console.log('xback', window.history.state)
+      confirm('back') && event.back()
+    })
+    document.getElementById('push').addEventListener('click', function () {
+      i++
+      window.location.href='#' + i
+    })
+    document.getElementById('back').addEventListener('click', function () {
+      console.log('beforeBack', window.history.state);
+      window.history.back();
+    })
+    document.getElementById('xback').addEventListener('click', function () {
+      console.log('beforeXBack', window.history.state);
+      xBack.back();
+    })
+    document.getElementById('uninit').addEventListener('click', function () {
+      xBack.uninit()
+    })
+    document.getElementById('listen').addEventListener('click', function () {
+      xBack.listen(function (event) {
+        console.log('new listen' + i)
+        confirm('back?') && event.back()
+      })
+    })
+  </script>
+</body>
+</html>
